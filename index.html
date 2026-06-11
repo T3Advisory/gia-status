@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>GIA Student Lifecycle Journey Mapping | Engagement Status</title>
+<style>
+  :root {
+    --navy: #002E65;
+    --dark-navy: #06233C;
+    --blue: #2E73EA;
+    --teal: #11C6C5;
+    --gold: #F8D608;
+    --gray-blue: #7B8A9F;
+    --light-bg: #E5EAF0;
+    --white: #FFFFFF;
+    --green: #2E9E6B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif;
+    background: var(--light-bg);
+    color: var(--dark-navy);
+    line-height: 1.45;
+  }
+  .page { max-width: 1180px; margin: 0 auto; padding: 0 24px 48px; }
+
+  /* Header */
+  .hero {
+    background: var(--navy);
+    color: var(--white);
+    padding: 36px 0 30px;
+    margin-bottom: 28px;
+  }
+  .hero-inner { max-width: 1180px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .logo-mark { flex: 0 0 auto; }
+  .hero h1 { font-size: 26px; font-weight: bold; letter-spacing: 0.2px; }
+  .hero .sub { font-size: 15px; color: #B9C6D8; margin-top: 4px; }
+  .hero .updated {
+    margin-left: auto; font-size: 13px; color: var(--navy);
+    background: var(--gold); padding: 5px 12px; border-radius: 999px; font-weight: bold;
+  }
+
+  /* Summary band */
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 30px; }
+  .stat {
+    background: var(--white); border-radius: 10px; padding: 16px 18px;
+    border-top: 4px solid var(--teal); box-shadow: 0 1px 3px rgba(6,35,60,0.08);
+  }
+  .stat .num { font-size: 30px; font-weight: bold; color: var(--navy); line-height: 1.1; }
+  .stat .label { font-size: 13px; color: var(--gray-blue); margin-top: 2px; }
+
+  /* Sections */
+  h2 { font-size: 18px; color: var(--navy); margin: 26px 0 4px; }
+  .section-note { font-size: 13.5px; color: var(--gray-blue); margin-bottom: 14px; }
+
+  /* Cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--white); border-radius: 10px; padding: 18px 20px 16px;
+    box-shadow: 0 1px 3px rgba(6,35,60,0.08);
+  }
+  .card h3 { font-size: 15.5px; color: var(--navy); margin-bottom: 8px; padding-right: 8px; }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .pill {
+    flex: 0 0 auto; font-size: 11.5px; font-weight: bold; padding: 3px 10px;
+    border-radius: 999px; white-space: nowrap; margin-top: 1px;
+  }
+  .pill.on-track { background: #DDF7F1; color: #14684A; }
+  .pill.scheduled { background: #E2E9F5; color: var(--navy); }
+  .pill.outreach { background: #FCF3C4; color: #6B5A00; }
+  .meta { font-size: 12.5px; color: var(--gray-blue); margin-bottom: 10px; }
+  .meta strong { color: var(--dark-navy); font-weight: bold; }
+
+  /* Progress bar */
+  .bar-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .bar { flex: 1; height: 7px; background: var(--light-bg); border-radius: 999px; overflow: hidden; }
+  .bar .fill { height: 100%; background: var(--teal); border-radius: 999px; }
+  .bar-label { font-size: 12px; color: var(--gray-blue); white-space: nowrap; }
+
+  /* Milestones */
+  ul.milestones { list-style: none; }
+  ul.milestones li {
+    display: flex; align-items: baseline; gap: 9px;
+    font-size: 13.5px; padding: 4px 0; border-bottom: 1px solid #F0F3F7;
+  }
+  ul.milestones li:last-child { border-bottom: none; }
+  .dot {
+    flex: 0 0 14px; width: 14px; height: 14px; border-radius: 50%;
+    position: relative; top: 2px;
+  }
+  .dot.done { background: var(--teal); }
+  .dot.done::after {
+    content: ""; position: absolute; left: 4px; top: 2.5px; width: 4px; height: 7px;
+    border: solid var(--white); border-width: 0 2px 2px 0; transform: rotate(45deg);
+  }
+  .dot.open { background: var(--white); border: 2px solid #C6D0DD; width: 12px; height: 12px; }
+  .m-name { flex: 1; }
+  .m-name.done-text { color: var(--gray-blue); }
+  .m-date { font-size: 12px; color: var(--gray-blue); white-space: nowrap; }
+  .m-date.next { color: var(--navy); font-weight: bold; }
+
+  /* Launching soon compact cards */
+  .compact .dots { display: flex; gap: 6px; margin: 6px 0 8px; }
+  .compact .mini { width: 11px; height: 11px; border-radius: 50%; background: var(--white); border: 2px solid #C6D0DD; }
+  .compact .mini.filled { background: var(--teal); border-color: var(--teal); }
+  .compact .stage-note { font-size: 12.5px; color: var(--gray-blue); }
+
+  /* Footer */
+  footer {
+    margin-top: 36px; padding-top: 18px; border-top: 2px solid #D3DCE6;
+    font-size: 12.5px; color: var(--gray-blue); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  footer .brand { color: var(--navy); font-weight: bold; }
+
+  @media (max-width: 640px) {
+    .hero .updated { margin-left: 0; }
+    .grid { grid-template-columns: 1fr; }
+  }
+  @media print {
+    body { background: var(--white); }
+    .card, .stat { box-shadow: none; border: 1px solid #D3DCE6; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <svg class="logo-mark" width="54" height="44" viewBox="0 0 54 44" xmlns="http://www.w3.org/2000/svg" aria-label="T3 Advisory">
+      <g fill="#11C6C5">
+        <path d="M10 8 L17 26 L3 26 Z"/>
+        <path d="M10 30 h2.6 v6 h-5.2 v-6 Z" fill="#E5EAF0"/>
+      </g>
+      <g fill="#FFFFFF">
+        <path d="M27 2 L36 26 L18 26 Z"/>
+        <path d="M27 30 h2.6 v8 h-5.2 v-8 Z" fill="#E5EAF0"/>
+      </g>
+      <g fill="#11C6C5">
+        <path d="M44 8 L51 26 L37 26 Z"/>
+        <path d="M44 30 h2.6 v6 h-5.2 v-6 Z" fill="#E5EAF0"/>
+      </g>
+    </svg>
+    <div>
+      <h1>GIA Student Lifecycle Journey Mapping</h1>
+      <div class="sub">Engagement Status Across the Inland Empire Partner Institutions &middot; T3 Advisory</div>
+    </div>
+    <div class="updated">Updated June 10, 2026</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="summary">
+    <div class="stat"><div class="num">15</div><div class="label">Partner Institutions</div></div>
+    <div class="stat"><div class="num">6</div><div class="label">Engagements Underway</div></div>
+    <div class="stat"><div class="num">4</div><div class="label">Mapping Workshops Held</div></div>
+    <div class="stat"><div class="num">3</div><div class="label">Reports in Development</div></div>
+    <div class="stat"><div class="num">9</div><div class="label">Entering Outreach (Week of June 15)</div></div>
+  </div>
+
+  <h2>Active Engagements</h2>
+  <div class="section-note">Six institutions are in an active engagement phase. All are currently on track.</div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-top"><h3>CSU Fullerton</h3><span class="pill on-track">On Track</span></div>
+      <div class="meta"><strong>In Person &middot; Modified Scope</strong> &nbsp;|&nbsp; Day 2 Session: June 12, 2026</div>
+      <div class="bar-wrap"><div class="bar"><div class="fill" style="width:33%"></div></div><span class="bar-label">2 of 6 milestones</span></div>
+      <ul class="milestones">
+        <li><span class="dot done"></span><span class="m-name done-text">Pre-Engagement Readiness Confirmed</span><span class="m-date">Jun 5</span></li>
+        <li><span class="dot done"></span><span class="m-name done-text">Day 1 Journey Mapping Session</span><span class="m-date">Jun 8</span></li>
+        <li><span class="dot open"></span><span class="m-name">Day 2 Initiative Mapping Session</span><span class="m-date next">Jun 12</span></li>
+        <li><span class="dot open"></span><span class="m-name">Reports Delivered</span><span class="m-date">Jul 3</span></li>
+        <li><span class="dot open"></span><span class="m-name">60-Day Check-In</span><span class="m-date">Aug 14</span></li>
+        <li><span class="dot open"></span><span class="m-name">Engagement Closed</span><span class="m-date">Aug 21</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><h3>Cal State San Bernardino</h3><span class="pill on-track">On Track</span></div>
+      <div class="meta">Workshop Held: June 9, 2026</div>
+      <div class="bar-wrap"><div class="bar"><div class="fill" style="width:80%"></div></div><span class="bar-label">4 of 5 milestones</span></div>
+      <ul class="milestones">
+        <li><span class="dot done"></span><span class="m-name done-text">Pre-Service Meeting</span><span class="m-date">Jun 2</span></li>
+        <li><span class="dot done"></span><span class="m-name done-text">Kickoff Meeting</span><span class="m-date"></span></li>
+        <li><span class="dot done"></span><span class="m-name done-text">Milestone Planning</span><span class="m-date"></span></li>
+        <li><span class="dot done"></span><span class="m-name done-text">Mapping Workshop</span><span class="m-date">Jun 9</span></li>
+        <li><span class="dot open"></span><span class="m-name">Report Delivery</span><span class="m-date next">Jun 30</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><h3>Riverside City College (RCCD)</h3><span class="pill on-track">On Track</span></div>
+      <div class="meta"><strong>Virtual</strong> &nbsp;|&nbsp; Workshop Held: June 1, 2026</div>
+      <div class="bar-wrap"><div class="bar"><div class="fill" style="width:67%"></div></div><span class="bar-label">2 of 3 milestones</span></div>
+      <ul class="milestones">
+        <li><span class="dot done"></span><span class="m-name done-text">Pre-Service Meeting</span><span class="m-date"></span></li>
+        <li><span class="dot done"></span><span class="m-name done-text">Mapping Workshop</span><span class="m-date">Jun 1</span></li>
+        <li><span class="dot open"></span><span class="m-name">Report Delivery</span><span class="m-date next">Jun 22</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><h3>University of La Verne</h3><span class="pill on-track">On Track</span></div>
+      <div class="meta"><strong>Virtual</strong> &nbsp;|&nbsp; Workshop Held: June 2, 2026</div>
+      <div class="bar-wrap"><div class="bar"><div class="fill" style="width:67%"></div></div><span class="bar-label">2 of 3 milestones</span></div>
+      <ul class="milestones">
+        <li><span class="dot done"></span><span class="m-name done-text">Kickoff Meeting</span><span class="m-date"></span></li>
+        <li><span class="dot done"></span><span class="m-name done-text">Mapping Workshop</span><span class="m-date">Jun 2</span></li>
+        <li><span class="dot open"></span><span class="m-name">Report Delivery</span><span class="m-date next">Jun 25</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><h3>Victor Valley College</h3><span class="pill on-track">On Track</span></div>
+      <div class="meta"><strong>In Person</strong> &nbsp;|&nbsp; Workshop Scheduled: July 21, 2026</div>
+      <div class="bar-wrap"><div class="bar"><div class="fill" style="width:17%"></div></div><span class="bar-label">1 of 6 milestones</span></div>
+      <ul class="milestones">
+        <li><span class="dot done"></span><span class="m-name done-text">Pre-Service Meeting</span><span class="m-date">May 22</span></li>
+        <li><span class="dot open"></span><span class="m-name">Kickoff Meeting</span><span class="m-date next">Jun 22</span></li>
+        <li><span class="dot open"></span><span class="m-name">Pre-Service Assessment</span><span class="m-date">Jul 1</span></li>
+        <li><span class="dot open"></span><span class="m-name">Milestone Planning</span><span class="m-date">Jul 6</span></li>
+        <li><span class="dot open"></span><span class="m-name">Mapping Workshop</span><span class="m-date">Jul 21</span></li>
+        <li><span class="dot open"></span><span class="m-name">Report Delivery</span><span class="m-date">Aug 6</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><h3>Norco College (RCCD)</h3><span class="pill scheduled">Scheduled</span></div>
+      <div class="meta"><strong>In Person &middot; Modified Scope</strong> &nbsp;|&nbsp; Two-Day Session: August 10&ndash;11, 2026</div>
+      <div class="bar-wrap"><div class="bar"><div class="fill" style="width:17%"></div></div><span class="bar-label">1 of 6 milestones</span></div>
+      <ul class="milestones">
+        <li><span class="dot done"></span><span class="m-name done-text">Pre-Service Meeting</span><span class="m-date"></span></li>
+        <li><span class="dot open"></span><span class="m-name">Kickoff Meeting</span><span class="m-date next">Jul 8</span></li>
+        <li><span class="dot open"></span><span class="m-name">Workshop Design &amp; Logistics</span><span class="m-date">Jul 27</span></li>
+        <li><span class="dot open"></span><span class="m-name">Mapping Workshop</span><span class="m-date">Aug 10</span></li>
+        <li><span class="dot open"></span><span class="m-name">Leadership Alignment &amp; Initiative Load Scan</span><span class="m-date">Aug 11</span></li>
+        <li><span class="dot open"></span><span class="m-name">Report Delivery</span><span class="m-date">Aug 27</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <h2>Launching: Formal Outreach Begins the Week of June 15</h2>
+  <div class="section-note">Nine institutions are fully set up and ready to begin. Each will follow the same six-milestone engagement path: Pre-Service Meeting, Pre-Service Assessment, Kickoff Meeting, Milestone Planning, Mapping Workshop, and Report Delivery.</div>
+  <div class="grid">
+
+    <div class="card compact">
+      <div class="card-top"><h3>Barstow Community College</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+    <div class="card compact">
+      <div class="card-top"><h3>Cal Poly Pomona</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+    <div class="card compact">
+      <div class="card-top"><h3>College of the Desert</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+    <div class="card compact">
+      <div class="card-top"><h3>Copper Mountain College</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+    <div class="card compact">
+      <div class="card-top"><h3>Crafton Hills College (SBCCD)</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+    <div class="card compact">
+      <div class="card-top"><h3>CSU San Marcos</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+    <div class="card compact">
+      <div class="card-top"><h3>Moreno Valley College (RCCD)</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+    <div class="card compact">
+      <div class="card-top"><h3>San Bernardino Valley College (SBCCD)</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+    <div class="card compact">
+      <div class="card-top"><h3>University of California, Riverside</h3><span class="pill outreach">Outreach Starting</span></div>
+      <div class="dots"><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span><span class="mini"></span></div>
+      <div class="stage-note">0 of 6 milestones &middot; Engagement path ready</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div><span class="brand">T3 Advisory</span> &middot; GIA Student Lifecycle Journey Mapping</div>
+    <div>Status data as of June 10, 2026 &middot; Questions? Contact Dr. Marisol Garza, marisol.garza@t3advisory.com</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
